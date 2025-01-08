@@ -125,6 +125,108 @@ arbol.printTree();
 
 ---
 
+## Métodos de Recorridos
+
+### Preorden Iterativo (`preOrderIterative`)
+Este método realiza un recorrido en preorden (Root, Left, Right) utilizando una pila para evitar la recursión.
+
+```java
+public void preOrderIterative(Node root) {
+    if (root == null) {
+        return;
+    }
+
+    Stack<Node> stack = new Stack<>();
+    stack.push(root);
+
+    while (!stack.isEmpty()) {
+        Node node = stack.pop();
+        System.out.print(node.getValue() + ", ");
+
+        if (node.getRight() != null) {
+            stack.push(node.getRight());
+        }
+        if (node.getLeft() != null) {
+            stack.push(node.getLeft());
+        }
+    }
+}
+```
+
+### Postorden Iterativo (`postOrderIterative`)
+Este método realiza un recorrido en postorden (Left, Right, Root) utilizando dos pilas para almacenar los nodos.
+
+```java
+public void postOrderIterative(Node root) {
+    if (root == null) {
+        return;
+    }
+
+    Stack<Node> stack1 = new Stack<>();
+    Stack<Node> stack2 = new Stack<>();
+
+    stack1.push(root);
+
+    while (!stack1.isEmpty()) {
+        Node node = stack1.pop();
+        stack2.push(node);
+
+        if (node.getLeft() != null) {
+            stack1.push(node.getLeft());
+        }
+        if (node.getRight() != null) {
+            stack1.push(node.getRight());
+        }
+    }
+
+    while (!stack2.isEmpty()) {
+        Node node = stack2.pop();
+        System.out.print(node.getValue() + ", ");
+    }
+}
+```
+
+### Inorden Recursivo (`inOrderTraversal`)
+Este método realiza un recorrido en inorden (Left, Root, Right) de forma recursiva.
+
+```java
+public void inOrderTraversal(Node node) {
+    if (node != null) {
+        inOrderTraversal(node.getLeft());
+        System.out.print(node.getValue() + ", ");
+        inOrderTraversal(node.getRight());
+    }
+}
+```
+
+### Preorden Recursivo (`preOrderTraversal`)
+Este método realiza un recorrido en preorden (Root, Left, Right) de forma recursiva.
+
+```java
+public void preOrderTraversal(Node node) {
+    if (node != null) {
+        System.out.print(node.getValue() + ", ");
+        preOrderTraversal(node.getLeft());
+        preOrderTraversal(node.getRight());
+    }
+}
+```
+
+### Postorden Recursivo (`postOrderTraversal`)
+Este método realiza un recorrido en postorden (Left, Right, Root) de forma recursiva.
+
+```java
+public void postOrderTraversal(Node node) {
+    if (node != null) {
+        postOrderTraversal(node.getLeft());
+        postOrderTraversal(node.getRight());
+        System.out.print(node.getValue() + ", ");
+    }
+}
+```
+
+---
+
 ## Conclusión
-La implementación del árbol binario de búsqueda utiliza recursión para simplificar operaciones como la inserción y la impresión. Estas herramientas son fundamentales para manejar datos jerárquicos de manera eficiente y clara. El método `insert` destaca por su elegancia y simplicidad al adherirse a las propiedades del BST, mientras que `printTree` facilita la comprensión visual de la estructura del árbol.
+La implementación de los métodos de recorrido permite explorar y procesar los nodos del árbol binario en diferentes órdenes. Los recorridos iterativos son útiles para evitar problemas de desbordamiento de pila en estructuras grandes, mientras que los recorridos recursivos son más sencillos de implementar y entender para estructuras pequeñas o medianas.
 
