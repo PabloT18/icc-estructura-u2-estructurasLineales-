@@ -1,178 +1,148 @@
-# Non-Linear Data Structures 
+# Estructuras de Datos No Lineales
 
 ## Getting Started
 
-This project is a practical exercise on how to implement basic non-linear data structures in Java. It includes examples of trees and their various forms, demonstrating how to manage different versions using annotated tags in Git.
+Este proyecto es un ejercicio práctico sobre cómo implementar estructuras de datos no lineales en Java. Incluye ejemplos de árboles y grafos, así como los algoritmos más comunes asociados a estas estructuras.
 
-This repository refers to the second unit of Data Structures, where the first chapter covers non-linear data structures: Trees, Binary Trees, and Graphs.
+Este repositorio se refiere a la tercera unidad de Estructuras de Datos, donde se cubren estructuras de datos no lineales: Árboles y Grafos.
 
-## Requirements
-- Java JDK 11 or higher
-- Git 2.20 or higher
+## Requisitos
+- Java JDK 11 o superior
+- Git 2.20 o superior
 
-## Trees and Graphs
+## Árboles
 
-### Trees
-A tree is a hierarchical data structure that consists of nodes connected by edges. Each tree has a root node, and each node can have zero or more child nodes. The main properties and operations for trees are:
-- **Root:** The topmost node of the tree.
-- **Leaf:** A node with no children.
-- **Edge:** The connection between two nodes.
-- **Path:** A sequence of nodes and edges connecting a node with a descendant.
-- **Subtree:** A tree consisting of a node and its descendants.
-- **Height:** The length of the longest path from a node to a leaf.
-- **Depth:** The length of the path from the root to a node.
+### Introducción
+Un árbol es una estructura de datos no lineal que organiza los datos en una jerarquía. Los nodos de un árbol están conectados mediante enlaces (aristas) y tienen las siguientes características principales:
+- Un nodo raíz (root) que no tiene padre.
+- Cada nodo puede tener cero o más nodos hijos.
+- No hay ciclos.
 
-### Binary Trees
-A binary tree is a type of tree where each node has at most two children, referred to as the left child and the right child. The main operations for a binary tree are:
-- **Insert:** Add a node to the tree following specific rules.
-- **Delete:** Remove a node from the tree.
-- **Traverse:** Visit all nodes in a specific order (In-order, Pre-order, Post-order).
-- **Search:** Find a node in the tree.
+Los tipos de árboles incluidos en este proyecto son:
+- **Árbol Binario:** Cada nodo puede tener como máximo dos hijos.
+- **Árbol de Búsqueda Binaria (BST):** Un árbol binario donde los valores a la izquierda de un nodo son menores, y los valores a la derecha son mayores.
 
-### Graphs
-A graph is a collection of nodes (also called vertices) and edges connecting pairs of nodes. Graphs can be either directed or undirected. The main operations for graphs are:
-- **Add Vertex:** Add a node to the graph.
-- **Add Edge:** Connect two nodes with an edge.
-- **Remove Vertex:** Remove a node and its connected edges from the graph.
-- **Remove Edge:** Remove the connection between two nodes.
-- **Traverse:** Visit all nodes in the graph (Depth-First Search, Breadth-First Search).
-- **Search:** Find a node or a path in the graph.
-
-## Binary Trees
-
-### Binary Search Tree (BST)
-A binary search tree is a binary tree where each node has a value, and the left subtree of a node contains only nodes with values less than the node's value, while the right subtree contains only nodes with values greater than the node's value.
-
-#### Operations on Binary Search Tree
-- **Insert:** Add a new node in the correct position.
-- **Delete:** Remove a node and rearrange the tree.
-- **Find Minimum:** Find the node with the smallest value.
-- **Find Maximum:** Find the node with the largest value.
-- **Search:** Find a node by its value.
-- **In-Order Traversal:** Visit nodes in ascending order.
-
-#### Binary Search Tree Class
-The `BinarySearchTree` class implements the binary search tree with basic operations.
-
-## Node and NodeGeneric Classes
-
-### Node
-The `Node` class is used to represent a single element in a tree or graph. It holds an integer value and references to its child nodes or adjacent nodes.
-
-### NodeGeneric
-The `NodeGeneric` class is a generic version of the `Node` class. It can hold any type of data (specified by the generic type parameter `T`) and references to its child nodes or adjacent nodes.
+#### Clase `Node`
+La clase `Node` implementa un nodo de árbol binario, con atributos para almacenar el valor, los hijos izquierdo y derecho, y la altura del nodo.
 
 ```java
+package main.Materia.Models;
+
 public class Node {
-    public int value;
-    Node left;
-    Node right;
+    private int value;
+    private Node left;
+    private Node right;
+    private int height;
 
     public Node(int value) {
         this.value = value;
     }
-}
 
-public class NodeGeneric<T> {
-    T data;
-    NodeGeneric<T> left;
-    NodeGeneric<T> right;
+    public int getValue() {
+        return value;
+    }
 
-    public NodeGeneric(T data) {
-        this.data = data;
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public Node getLeft() {
+        return left;
+    }
+
+    public void setLeft(Node left) {
+        this.left = left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
+    public void setRight(Node right) {
+        this.right = right;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
 ```
 
+### Operaciones comunes en Árboles
+- **Inserción**: Insertar un nodo en la ubicación adecuada.
+- **Búsqueda**: Encontrar un nodo con un valor específico.
+- **Recorridos**:
+  - Preorden (Root, Left, Right)
+  - Inorden (Left, Root, Right)
+  - Postorden (Left, Right, Root)
+- **Eliminación**: Remover un nodo y ajustar el árbol para mantener sus propiedades.
 
-## Execution of Projects with Unit Tests
+## Grafos
 
-To install and use JUnit without Maven or Gradle in a simple Java project in VS Code, follow these steps:
+### Introducción
+Un grafo es una estructura de datos no lineal que consiste en nodos (vértices) conectados mediante enlaces (aristas). Los grafos pueden ser:
+- **Dirigidos** o **No Dirigidos**: Dependiendo de si las aristas tienen una dirección definida.
+- **Ponderados** o **No Ponderados**: Dependiendo de si las aristas tienen un peso asociado.
 
-### Requirements
+#### Clase `NodeGraph`
+La clase `NodeGraph` implementa un nodo para representar un vértice en un grafo, con una lista de vecinos que representa las conexiones.
 
-- Java JDK 11 or higher
-- Git 2.20 or higher
+```java
+package main.Materia.Models;
 
-### Setup Instructions
+import java.util.LinkedList;
+import java.util.List;
 
-1. **Download JUnit and Hamcrest**: Ensure you have the necessary JAR files for JUnit and Hamcrest. You can download them from the following links:
-   - [JUnit JAR](https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.7.0/junit-jupiter-api-5.7.0.jar)
-   - [Hamcrest JAR](https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar)
-   - [API Guardian JAR](https://repo1.maven.org/maven2/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar)
-   - [JUnit Platform Console Standalone JAR](https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.7.0/junit-platform-console-standalone-1.7.0.jar)
+public class NodeGraph {
+    private int value;
+    private List<NodeGraph> neighbors;
 
-2. **Create a folder for the libraries**: Create a folder named `lib` in the root directory of your project and place the downloaded JAR files in this folder.
+    public NodeGraph(int value) {
+        this.value = value;
+        this.neighbors = new LinkedList<>();
+    }
 
-3. **Configure VS Code**:
-   - Open your project in VS Code.
-   - Open the `settings.json` file of your project (you can create one in the `.vscode` directory if it doesn't exist).
-   - Add the following configuration to include the JARs in the classpath:
+    public int getValue() {
+        return value;
+    }
 
-```json
-{
-  "java.project.referencedLibraries": [
-    "lib/**/*.jar"
-  ]
+    public List<NodeGraph> getNeighbors() {
+        return neighbors;
+    }
+
+    public void addNeighbor(NodeGraph neighbor) {
+        this.neighbors.add(neighbor);
+    }
 }
 ```
 
-4. **Write the test code**:
-   - Ensure that your folder structure is similar to this:
+### Operaciones comunes en Grafos
+- **Inserción de Vértices y Aristas**: Agregar nodos y conexiones entre ellos.
+- **Recorridos**:
+  - DFS (Depth-First Search)
+  - BFS (Breadth-First Search)
+- **Detección de Ciclos**: Determinar si el grafo contiene ciclos.
+- **Cálculo de Rutas**: Encontrar la ruta más corta entre dos nodos usando algoritmos como Dijkstra o Bellman-Ford.
 
-```
-project-root
-│
-├── lib
-│   ├── apiguardian-api-1.1.0.jar
-│   ├── hamcrest-core-1.3.jar
-│   ├── junit-jupiter-api-5.7.0.jar
-│   ├── junit-platform-console-standalone-1.7.0.jar
-│
-├── src
-│   ├── main
-│   │   └── ... (your source code)
-│   ├── test
-│       └── ... (your test code)
-│
-├── bin
-│   └── ... (compiled files)
-```
+## Comparación: Árboles vs Grafos
 
-### Compile and Run Tests
+| Característica        | Árboles                      | Grafos                              |
+|------------------------|-------------------------------|-------------------------------------|
+| **Estructura**         | Jerárquica                   | General                            |
+| **Ciclos**             | No permitidos                | Permitidos                         |
+| **Recorridos**         | Preorden, Inorden, Postorden | DFS, BFS                           |
+| **Relaciones**         | Padre-Hijo                   | Arbitrarias                        |
+| **Uso Típico**         | Representar jerarquías       | Representar redes o conexiones     |
 
-1. **Compile the Java files**:
-   Open a terminal in VS Code and navigate to the root folder of your project. Then, run the following command to compile your Java files, including the JARs in the classpath:
+## Contribuir
 
-```sh
-javac -cp "lib/*" -d bin src/main/Materia/Controllers/ArbolBinario.java src/main/Materia/Models/Node.java src/test/Materia/ArbolBinarioTest.java src/main/App.java
-```
+Para contribuir a este proyecto, por favor crea un fork y envía una solicitud de extracción, o simplemente abre un issue con tus comentarios y sugerencias.
 
-2. **Run the tests using JUnit**:
-   After compiling the files, run the following command to execute the tests using JUnit:
+## Autores
 
-```sh
-java -cp "lib/*:bin" org.junit.platform.console.ConsoleLauncher --classpath bin --scan-classpath
-```
-
-### Example Output
-
-You should see output similar to the following if your tests run successfully:
-
-```
-IN-ORDER TRAVERSAL: 1 2 3
-PRE-ORDER TRAVERSAL: 1 3 2
-```
-
-This procedure should allow you to compile and run your unit tests using JUnit in a Java project without Maven or Gradle.
-
-
-## Contribute
-
-To contribute to this project, please create a fork and send a pull request, or simply open an issue with your comments and suggestions.
-
-## Authors
-
-- [PABLO TORRES] - Initial development
-
+- [PABLO TORRES] - Desarrollo inicial
 
