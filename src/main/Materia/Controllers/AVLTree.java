@@ -22,7 +22,7 @@ public class AVLTree {
         Node T2 = x.getRight();
 
         // Imprimir información antes de la rotación
-        System.out.println("Right rotate on node: " + y.getValue() + ", Balance: " + getBalance(y));
+        System.out.println("Rotacion Der en nodo: " + y.getValue() + ", Balance: " + getBalance(y));
 
         // Realizar rotación
         x.setRight(y);
@@ -33,7 +33,7 @@ public class AVLTree {
         x.setHeight(Math.max(height(x.getLeft()), height(x.getRight())) + 1);
 
         // Imprimir información después de la rotación
-        System.out.println("New root after right rotate: " + x.getValue());
+        System.out.println("Nueva raiz despues de rotacion der: " + x.getValue());
 
         // Devolver nueva raíz
         return x;
@@ -45,7 +45,7 @@ public class AVLTree {
         Node T2 = y.getLeft();
 
         // Imprimir información antes de la rotación
-        System.out.println("Left rotate on node: " + x.getValue() + ", Balance: " + getBalance(x));
+        System.out.println("Rotacion Izq en nodo: " + x.getValue() + ", Balance: " + getBalance(x));
 
         // Realizar rotación
         y.setLeft(x);
@@ -56,7 +56,7 @@ public class AVLTree {
         y.setHeight(Math.max(height(y.getLeft()), height(y.getRight())) + 1);
 
         // Imprimir información después de la rotación
-        System.out.println("New root after left rotate: " + y.getValue());
+        System.out.println("Nueva raiz despues de rotacion der: " + y.getValue());
 
         // Devolver nueva raíz
         return y;
@@ -72,48 +72,76 @@ public class AVLTree {
     // Método para insertar un nodo y equilibrar el árbol
     public Node insert(Node node, int value) {
         // Realizar inserción normal de BST
-        if (node == null)
-            return new Node(value);
+        if (node == null) {
+            Node newNode = new Node(value);
+            newNode.setHeight(1);
+            // Obtener el factor de balanceo de este ancestro nodo
+            int balance = getBalance(newNode);
+            // Imprimir información del nodo después de la inserción
+            System.out.println("Nodo insertado: " + newNode.getValue() + ", Balance: " +
+                    balance);
+            return newNode;
 
-        if (value < node.getValue())
+        }
+
+        if (value < node.getValue()) {
+
             node.setLeft(insert(node.getLeft(), value));
-        else if (value > node.getValue())
+
+        } else if (value > node.getValue()) {
+
             node.setRight(insert(node.getRight(), value));
-        else // No se permiten valores duplicados en el árbol AVL
+
+        } else // No se permiten valores duplicados en el árbol AVL
             return node;
 
+        System.out.println("- Nodo actual: " + node.getValue());
         // Actualizar la altura de este ancestro nodo
-        node.setHeight(1 + Math.max(height(node.getLeft()), height(node.getRight())));
+        int altura = 1 + Math.max(height(node.getLeft()), height(node.getRight()));
+        node.setHeight(altura);
+        System.out.println("\tAltura del nodo: " + node.getValue() + " es = " + altura);
 
         // Obtener el factor de balanceo de este ancestro nodo
         int balance = getBalance(node);
-
         // Imprimir información del nodo después de la inserción
-        System.out.println("Inserted node: " + node.getValue() + ", Balance: " + balance);
+        System.out.println("\tEquilibrio del node: " + node.getValue() + " = " + balance);
 
         // Si el nodo está desbalanceado, hay 4 casos
 
         // Caso izquierda-izquierda
-        if (balance > 1 && value < node.getLeft().getValue())
+        if (balance > 1 && value < node.getLeft().getValue()) {
+            printTreeNode2(node, "", true);
+
             return rightRotate(node);
+        }
 
         // Caso derecha-derecha
-        if (balance < -1 && value > node.getRight().getValue())
+        if (balance < -1 && value > node.getRight().getValue()) {
+
+            printTreeNode2(node, "", true);
+
             return leftRotate(node);
+        }
 
         // Caso izquierda-derecha
         if (balance > 1 && value > node.getLeft().getValue()) {
+
             node.setLeft(leftRotate(node.getLeft()));
+            printTreeNode2(node, "", true);
             return rightRotate(node);
         }
 
         // Caso derecha-izquierda
         if (balance < -1 && value < node.getRight().getValue()) {
+            System.out.println("\tDerecha-Izquierda a nodo " + node.getValue());
             node.setRight(rightRotate(node.getRight()));
+            printTreeNode2(node, "", true);
+
             return leftRotate(node);
         }
 
         // Devolver el nodo (sin cambios)
+
         return node;
     }
 
@@ -152,7 +180,7 @@ public class AVLTree {
 
     // Método para iniciar la inserción desde la raíz
     public void insert(int value) {
-        System.out.println("Nodo a instertar: " + value);
+        System.out.println("* Nodo a instertar: " + value);
         root = insert(root, value);
         printTree();
         System.out.println("\n-------\n");

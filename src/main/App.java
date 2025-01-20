@@ -12,33 +12,77 @@ public class App {
         System.out.println("Estructuras de Datos NO Lineanes\n");
 
         // runArbolesBinarios();
-        // runrunArbolesBinarios();
+        // runrunArbolesAVL();
+        runGraphs();
+    }
+
+    private static void runrunArbolesAVL() {
+        // AVLTree tree = new AVLTree();
+
+        // int[] values = { 20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 22, 27, 32, 37 };
+
+        // for (int value : values) {
+        // tree.insert(value);
+        // }
+
+        // System.out.println("Inorder traversal of the constructed AVL tree is:");
+        // tree.inOrder();
+        AVLTree tree2 = new AVLTree();
+
+        int[] values2 = { 10, 20, 15, 24, 9, 8, 21, 23, 50, 25 };
+
+        for (int value : values2) {
+            tree2.insert(value);
+        }
+
+        System.out.println("Inorder traversal of the constructed AVL tree2 is:");
+        tree2.inOrder();
+
+    }
+
+    private static void runGraphs() {
 
         Graph graph = new Graph();
 
-        // Añadir nodos
+        // // Añadir nodos
+        // NodeGraph node1 = graph.addNode(1);
+        // NodeGraph node2 = graph.addNode(2);
+        // NodeGraph node3 = graph.addNode(3);
+        // NodeGraph node4 = graph.addNode(4);
+        // NodeGraph node5 = graph.addNode(5);
+
+        // // Añadir aristas
+        // graph.addEdge(node1, node2);
+        // graph.addEdge(node1, node3);
+        // graph.addEdge(node2, node3);
+        // graph.addEdge(node3, node4);
+        // graph.addEdge(node4, node5);
+
+        NodeGraph node0 = graph.addNode(0);
         NodeGraph node1 = graph.addNode(1);
         NodeGraph node2 = graph.addNode(2);
         NodeGraph node3 = graph.addNode(3);
         NodeGraph node4 = graph.addNode(4);
         NodeGraph node5 = graph.addNode(5);
 
-        // Añadir aristas
-        graph.addEdge(node1, node2);
-        graph.addEdge(node1, node3);
-        graph.addEdge(node2, node3);
-        graph.addEdge(node3, node4);
-        graph.addEdge(node4, node5);
+        graph.addEdgeUni(node0, node5);
+        graph.addEdgeUni(node0, node3);
+        graph.addEdgeUni(node3, node2);
+        graph.addEdgeUni(node3, node4);
+        graph.addEdgeUni(node4, node1);
+        graph.addEdgeUni(node2, node1);
+
+        graph.addEdgeUni(node1, node0);
 
         // Imprimir el grafo
         graph.printGraph();
 
-        // Recorridos DFS y BFS
-        System.out.println("Depth First Traversal starting from vertex 1:");
-        graph.DFS(node1);
+        // // Recorridos DFS y BFS
+        // // System.out.println("Depth First Traversal starting from vertex 1:");
+        // graph.dfs(node1);
 
-        System.out.println("\nBreadth First Traversal starting from vertex 1:");
-        graph.BFS(node1);
+        // // System.out.println("\nBreadth First Traversal starting from vertex 1:");
+        // // graph.BFS(node1);
     }
 
     private static void runrunArbolesBinarios() {
@@ -98,26 +142,5 @@ public class App {
     // System.out.print("POST-ORDER TRAVERSAL: ");
     // arbolBinario.postOrderIterative(root);
     // System.out.println();
-
-    // AVLTree tree = new AVLTree();
-
-    // int[] values = { 20, 10, 30, 5, 15, 25, 35, 2, 7, 12, 17, 22, 27, 32, 37 };
-
-    // for (int value : values) {
-    // tree.insert(value);
-    // }
-
-    // System.out.println("Inorder traversal of the constructed AVL tree is:");
-    // tree.inOrder();
-    // AVLTree tree = new AVLTree();
-
-    // int[] values = { 10, 20, 15, 24, 9, 8, 21, 23, 50, 25 };
-
-    // for (int value : values) {
-    // tree.insert(value);
-    // }
-
-    // // System.out.println("Inorder traversal of the constructed AVL tree is:");
-    // // tree.inOrder();
 
 }

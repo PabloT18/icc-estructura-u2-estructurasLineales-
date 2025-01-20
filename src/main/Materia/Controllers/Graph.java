@@ -1,8 +1,11 @@
 package main.Materia.Controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import main.Materia.Models.NodeGraph;
 
@@ -27,6 +30,10 @@ public class Graph {
         dest.addNeighbor(src); // Para grafos no dirigidos
     }
 
+    public void addEdgeUni(NodeGraph src, NodeGraph des) {
+        src.addNeighbor(des);
+    }
+
     // Método para imprimir el grafo
     public void printGraph() {
         for (NodeGraph node : nodes) {
@@ -38,41 +45,77 @@ public class Graph {
         }
     }
 
-    // Método de búsqueda en profundidad (DFS)
-    public void DFS(NodeGraph startNode) {
-        boolean[] visited = new boolean[nodes.size()];
-        DFSUtil(startNode, visited);
+    // Método DFS
+    public void dfs(NodeGraph start) {
+        Set<NodeGraph> visited = new HashSet<>();
+        System.out.println("DFS desde el nodo " + start.getValue() + ":");
+        dfsHelper(start, visited);
+        System.out.println();
     }
 
-    private void DFSUtil(NodeGraph node, boolean[] visited) {
-        visited[node.getValue() - 1] = true; // Adjusted index for 1-based node values
+    private void dfsHelper(NodeGraph node, Set<NodeGraph> visited) {
+        if (visited.contains(node)) {
+            return;
+        }
+
         System.out.print(node.getValue() + " ");
+        visited.add(node);
 
         for (NodeGraph neighbor : node.getNeighbors()) {
-            if (!visited[neighbor.getValue() - 1]) { // Adjusted index for 1-based node values
-                DFSUtil(neighbor, visited);
-            }
+            dfsHelper(neighbor, visited);
         }
     }
 
-    // Método de búsqueda en anchura (BFS)
-    public void BFS(NodeGraph startNode) {
-        boolean[] visited = new boolean[nodes.size()];
-        LinkedList<NodeGraph> queue = new LinkedList<>();
+    public boolean getDFS(NodeGraph start, NodeGraph destino) {
+        Set<NodeGraph> visitados = new HashSet<>();
+        System.out.println("DFS desde el nodo " + start.getValue() + " hasta el nodo " + destino.getValue() + " :");
+        boolean encontrado = getDFSUtil(start, destino, visitados);
+        System.out.println();
+        return encontrado;
+    }
 
-        visited[startNode.getValue() - 1] = true; // Adjusted index for 1-based node values
-        queue.add(startNode);
+    private boolean getDFSUtil(NodeGraph node, NodeGraph destino,
+            Set<NodeGraph> visitados) {
+        if (visitados.contains(node)) {
+            return false;
+        }
+
+        System.out.print(node.getValue() + " ");
+        visitados.add(node);
+
+        if (node.equals(destino)) {
+            return true;
+        }
+
+        for (NodeGraph neighbor : node.getNeighbors()) {
+            if (getDFSUtil(neighbor, destino, visitados)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Método BFS
+    public void bfs(NodeGraph start) {
+        Set<NodeGraph> visited = new HashSet<>();
+        Queue<NodeGraph> queue = new LinkedList<>();
+
+        System.out.println("BFS desde el nodo " + start.getValue() + ":");
+        queue.add(start);
+        visited.add(start);
 
         while (!queue.isEmpty()) {
-            NodeGraph node = queue.poll();
-            System.out.print(node.getValue() + " ");
+            NodeGraph current = queue.poll();
+            System.out.print(current.getValue() + " ");
 
-            for (NodeGraph neighbor : node.getNeighbors()) {
-                if (!visited[neighbor.getValue() - 1]) { // Adjusted index for 1-based node values
-                    visited[neighbor.getValue() - 1] = true;
+            for (NodeGraph neighbor : current.getNeighbors()) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
                     queue.add(neighbor);
                 }
             }
         }
+        System.out.println();
     }
 }
